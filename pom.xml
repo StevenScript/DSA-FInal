@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>DSA-FInal</artifactId>
+	<artifactId>DSA-Final</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>DSA-FInal</name>
 	<description>A Spring Boot project for building and storing BSTs</description>

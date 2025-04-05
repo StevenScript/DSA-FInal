@@ -1,13 +1,13 @@
-package com.example.DSA_FInal;
+package com.example.DSA_Final;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DsaFInalApplication {
+public class DsaFinalApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DsaFInalApplication.class, args);
+		SpringApplication.run(DsaFinalApplication.class, args);
 	}
 
 }
