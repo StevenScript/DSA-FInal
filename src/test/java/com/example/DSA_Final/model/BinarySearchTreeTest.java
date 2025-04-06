@@ -7,7 +7,7 @@ public class BinarySearchTreeTest {
 
     @Test
     void testInsertAndToJson() {
-        // Arrange: We create the (nonexistent) BST
+        // Arrange: Create the BST
         BinarySearchTree bst = new BinarySearchTree();
 
         // Act: Insert some numbers
@@ -15,7 +15,7 @@ public class BinarySearchTreeTest {
         bst.insert(2);
         bst.insert(7);
 
-        // Convert to JSON (this method doesn't exist yet, so we'll create it soon)
+        // Convert to JSON
         String json = bst.toJson();
 
         // Assert: Check if JSON contains the right structure

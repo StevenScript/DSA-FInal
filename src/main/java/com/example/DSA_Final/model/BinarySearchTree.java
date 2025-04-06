@@ -17,8 +17,7 @@ public class BinarySearchTree {
     private Node root;
 
     /**
-     * We'll use a static inner class to represent each node.
-     * Lombok can help generate getters and setters, but let's keep it minimal.
+     * A static inner class to represent each node.
      */
     @Getter
     @Setter
@@ -55,7 +54,7 @@ public class BinarySearchTree {
 
     /**
      * Converts the BST root node to a JSON string.
-     * We rely on Jackson's ObjectMapper for this.
+     * Jackson's ObjectMapper does this.
      */
     public String toJson() {
         ObjectMapper mapper = new ObjectMapper();
