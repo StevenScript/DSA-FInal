@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * A simple Binary Search Tree model class
@@ -48,8 +51,39 @@ public class BinarySearchTree {
         } else if (value > current.getValue()) {
             current.setRight(insertRec(current.getRight(), value));
         }
-        // If equal, do nothing or handle duplicates as you prefer
         return current;
+    }
+
+    /**
+     * Balances the current BST by:
+     * 1) Gathering all values via in-order traversal.
+     * 2) Rebuilding a balanced tree from the sorted list.
+     */
+    public void balance() {
+        // 1) In-order traversal to get sorted list of values
+        List<Integer> values = new ArrayList<>();
+        inOrder(root, values);
+
+        // 2) Build a balanced BST from the sorted list
+        root = buildBalanced(values, 0, values.size() - 1);
+    }
+
+    private void inOrder(Node node, List<Integer> list) {
+        if (node == null) return;
+        inOrder(node.getLeft(), list);
+        list.add(node.getValue());
+        inOrder(node.getRight(), list);
+    }
+
+    private Node buildBalanced(List<Integer> values, int start, int end) {
+        if (start > end) {
+            return null;
+        }
+        int mid = (start + end) / 2;
+        Node newNode = new Node(values.get(mid));
+        newNode.setLeft(buildBalanced(values, start, mid - 1));
+        newNode.setRight(buildBalanced(values, mid + 1, end));
+        return newNode;
     }
 
     /**
