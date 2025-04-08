@@ -11,8 +11,9 @@ import java.util.List;
 
 
 /**
- * A simple Binary Search Tree model class
- * that inserts values and can output the tree as JSON.
+ * Model representing a Binary Search Tree (BST).
+ * Provides methods to insert values, balance the tree,
+ * and serialize the tree structure to JSON.
  */
 @NoArgsConstructor
 public class BinarySearchTree {
@@ -20,7 +21,7 @@ public class BinarySearchTree {
     private Node root;
 
     /**
-     * A static inner class to represent each node.
+     * Represents a single node within the BST.
      */
     @Getter
     @Setter
@@ -36,7 +37,10 @@ public class BinarySearchTree {
     }
 
     /**
-     * Insert a new value into the BST.
+     * Inserts a value into the BST, maintaining the BST property.
+     * Duplicates are ignored to preserve tree uniqueness.
+     *
+     * @param value integer to insert into the tree
      */
     public void insert(int value) {
         root = insertRec(root, value);
@@ -44,30 +48,28 @@ public class BinarySearchTree {
 
     private Node insertRec(Node current, int value) {
         if (current == null) {
-            return new Node(value);
+            return new Node(value); // New leaf node
         }
         if (value < current.getValue()) {
             current.setLeft(insertRec(current.getLeft(), value));
         } else if (value > current.getValue()) {
             current.setRight(insertRec(current.getRight(), value));
         }
-        return current;
+        return current; // return unchanged node if duplicate
     }
 
     /**
      * Balances the current BST by:
-     * 1) Gathering all values via in-order traversal.
-     * 2) Rebuilding a balanced tree from the sorted list.
+     *   1. Collect node values using in-order traversal (producing a sorted list).
+     *   2. Rebuild a balanced BST from the sorted list.
      */
     public void balance() {
-        // 1) In-order traversal to get sorted list of values
         List<Integer> values = new ArrayList<>();
         inOrder(root, values);
-
-        // 2) Build a balanced BST from the sorted list
         root = buildBalanced(values, 0, values.size() - 1);
     }
 
+    // Recursively collects node values in ascending order.
     private void inOrder(Node node, List<Integer> list) {
         if (node == null) return;
         inOrder(node.getLeft(), list);
@@ -75,9 +77,10 @@ public class BinarySearchTree {
         inOrder(node.getRight(), list);
     }
 
+    // Rebuilds a balanced BST from sorted values
     private Node buildBalanced(List<Integer> values, int start, int end) {
         if (start > end) {
-            return null;
+            return null; // No nodes left for this subtree.
         }
         int mid = (start + end) / 2;
         Node newNode = new Node(values.get(mid));
@@ -87,8 +90,10 @@ public class BinarySearchTree {
     }
 
     /**
-     * Converts the BST root node to a JSON string.
-     * Jackson's ObjectMapper does this.
+     * Serializes the BST structure into a JSON string.
+     * Used for frontend visualization or API responses.
+     *
+     * @return JSON representation of the BST.
      */
     public String toJson() {
         ObjectMapper mapper = new ObjectMapper();
@@ -96,7 +101,7 @@ public class BinarySearchTree {
             // We'll serialize the root node
             return mapper.writeValueAsString(root);
         } catch (JsonProcessingException e) {
-            return "{}"; // fallback if serialization fails
+            return "{}"; // Return empty JSON on serialization failure.
         }
     }
 }
