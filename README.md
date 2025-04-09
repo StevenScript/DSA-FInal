@@ -1,4 +1,5 @@
 # DSA Final Project - Binary Search Tree Application
+# BACK END
 ### NAME - Steven Norris
 ### DATE - April 9th 2025
 
@@ -91,16 +92,5 @@ src/
   mvn test
   ```
   Tests cover model logic, repository operations, service layer functionality, and REST API endpoints.
-
-## Deployment Instructions
-
-- **Packaging:**  
-  Create a runnable JAR:
-  ```bash
-  mvn clean package
-  ```
-- **Deployment:**  
-  Deploy the JAR to your preferred environment (cloud service, on-premises server, etc.).  
-  For containerized deployment, add a Dockerfile to package the application.
 
 
