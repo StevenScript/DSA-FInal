@@ -16,6 +16,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+/**
+ * Controller tests for BalancedTreeController.
+ * Verifies the balancing endpoints using MockMvc and mocked TreeService.
+ */
 @WebMvcTest(BalancedTreeController.class)
 public class BalancedTreeControllerTest {
 
@@ -27,15 +31,17 @@ public class BalancedTreeControllerTest {
 
     @Test
     void testBalanceTreeSuccess() throws Exception {
-        // Create a sample BalancedTreeRecord
+        // Prepare a sample balanced tree record.
         BalancedTreeRecord record = new BalancedTreeRecord();
         record.setId(1L);
         record.setOriginalTreeId(10L);
         record.setInputNumbers("1,2,3,4,5");
         record.setBalancedTreeJson("{\"value\":3,\"left\":{\"value\":1},\"right\":{\"value\":5}}");
 
+        // Stub the service to return the sample record when balancing tree with ID 10.
         Mockito.when(treeService.balanceExistingTree(10L)).thenReturn(record);
 
+        // Perform POST and verify the response.
         mockMvc.perform(post("/api/balance/10")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -45,10 +51,11 @@ public class BalancedTreeControllerTest {
 
     @Test
     void testBalanceTreeNotFound() throws Exception {
-        // If the service throws an exception, return 404
+        // Stub the service to throw an exception if the tree is not found.
         Mockito.when(treeService.balanceExistingTree(anyLong()))
                 .thenThrow(new RuntimeException("TreeRecord not found"));
 
+        // Expect a 404 response when balancing a non-existent tree.
         mockMvc.perform(post("/api/balance/999")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
@@ -56,7 +63,7 @@ public class BalancedTreeControllerTest {
 
     @Test
     void testGetAllBalancedTrees() throws Exception {
-        // Create two sample BalancedTreeRecords
+        // Create sample balanced tree records.
         BalancedTreeRecord record1 = new BalancedTreeRecord();
         record1.setId(1L);
         record1.setOriginalTreeId(10L);
@@ -71,8 +78,10 @@ public class BalancedTreeControllerTest {
 
         Iterable<BalancedTreeRecord> balancedList = java.util.List.of(record1, record2);
 
+        // Stub the service to return the sample list.
         Mockito.when(treeService.getAllBalancedTrees()).thenReturn(balancedList);
 
+        // Perform GET and verify that both records are returned.
         mockMvc.perform(get("/api/balanced")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
